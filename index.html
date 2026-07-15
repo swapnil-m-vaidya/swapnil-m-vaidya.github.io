@@ -1,291 +1,1643 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Swapnil Vaidya | Frontend Developer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta
+      name="description"
+      content="Swapnil Vaidya — Frontend Developer specializing in React, Next.js and TypeScript. I build fast, accessible, scalable web applications."
+    />
+    <meta property="og:title" content="Swapnil Vaidya | Frontend Developer" />
+    <meta
+      property="og:description"
+      content="Frontend Developer specializing in React, Next.js and TypeScript."
+    />
+    <meta property="og:type" content="website" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='52' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>S</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <style>
+      :root {
+        --bg: #0a0e1a;
+        --bg-soft: #0f1526;
+        --card: #131a2e;
+        --card-hover: #182138;
+        --border: rgba(148, 163, 184, 0.14);
+        --text: #e2e8f0;
+        --text-muted: #94a3b8;
+        --text-faint: #64748b;
+        --accent: #818cf8;
+        --accent-2: #22d3ee;
+        --accent-solid: #6366f1;
+        --gradient: linear-gradient(135deg, #818cf8 0%, #22d3ee 100%);
+        --font-head: "Sora", sans-serif;
+        --font-body: "Inter", sans-serif;
+        --font-mono: "JetBrains Mono", monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 90px;
+      }
+
       body {
-        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      ::selection {
+        background: rgba(129, 140, 248, 0.35);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      .container {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* ---------- Background glow ---------- */
+      .bg-glow {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .bg-glow::before,
+      .bg-glow::after {
+        content: "";
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        filter: blur(140px);
+        opacity: 0.16;
+      }
+
+      .bg-glow::before {
+        background: #6366f1;
+        top: -200px;
+        right: -150px;
+      }
+
+      .bg-glow::after {
+        background: #0ea5e9;
+        bottom: -250px;
+        left: -150px;
+      }
+
+      .bg-grid {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background-image: linear-gradient(
+            rgba(148, 163, 184, 0.05) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent);
+        -webkit-mask-image: radial-gradient(
+          ellipse 80% 60% at 50% 0%,
+          black,
+          transparent
+        );
+      }
+
+      /* ---------- Navbar ---------- */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        background: rgba(10, 14, 26, 0.75);
+        border-bottom: 1px solid var(--border);
+        transition: background 0.3s;
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+      }
+
+      .logo {
+        font-family: var(--font-mono);
+        font-size: 1.05rem;
+        font-weight: 500;
+        color: var(--text);
+      }
+
+      .logo span {
+        color: var(--accent);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        transition: color 0.2s;
+        position: relative;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--text);
+      }
+
+      .nav-links a.active::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -6px;
+        height: 2px;
+        border-radius: 2px;
+        background: var(--gradient);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 22px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      }
+
+      .btn-primary {
+        background: var(--gradient);
+        color: #0a0e1a;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      .nav .btn {
+        padding: 8px 18px;
+        font-size: 0.85rem;
+      }
+
+      .nav-links a.btn-primary {
+        color: #0a0e1a;
+      }
+
+      .nav-links a.btn-primary:hover {
+        color: #0a0e1a;
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      .hamburger span {
+        width: 22px;
+        height: 2px;
+        background: var(--text);
+        border-radius: 2px;
+        transition: transform 0.3s, opacity 0.3s;
+      }
+
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      /* ---------- Hero ---------- */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding-top: 68px;
+      }
+
+      .hero-eyebrow {
+        font-family: var(--font-mono);
+        color: var(--accent);
+        font-size: 0.95rem;
+        margin-bottom: 18px;
+      }
+
+      .hero h1 {
+        font-family: var(--font-head);
+        font-size: clamp(2.6rem, 7vw, 4.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+      }
+
+      .hero h1 .gradient-text {
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero h2 {
+        font-family: var(--font-head);
+        font-size: clamp(1.3rem, 3.5vw, 2rem);
+        font-weight: 700;
+        color: var(--text-faint);
+        margin-bottom: 24px;
+      }
+
+      .hero h2 .typed {
+        color: var(--text-muted);
+        border-right: 2px solid var(--accent);
+        padding-right: 4px;
+      }
+
+      .hero p {
+        max-width: 560px;
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        margin-bottom: 36px;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 44px;
+      }
+
+      .socials {
+        display: flex;
+        gap: 14px;
+      }
+
+      .socials a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        transition: all 0.2s;
+      }
+
+      .socials a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        transform: translateY(-3px);
+      }
+
+      .socials svg {
+        width: 19px;
+        height: 19px;
+        fill: currentColor;
+      }
+
+      /* ---------- Stats ---------- */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-top: -40px;
+        margin-bottom: 40px;
+      }
+
+      .stat {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 22px 18px;
+        text-align: center;
+      }
+
+      .stat b {
+        display: block;
+        font-family: var(--font-head);
+        font-size: 1.7rem;
+        font-weight: 700;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .stat span {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+      }
+
+      /* ---------- Sections ---------- */
+      section {
+        padding: 90px 0;
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 44px;
+      }
+
+      .section-title .index {
+        font-family: var(--font-mono);
+        color: var(--accent);
+        font-size: 1rem;
+      }
+
+      .section-title h3 {
+        font-family: var(--font-head);
+        font-size: clamp(1.5rem, 3vw, 1.9rem);
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .section-title .line {
+        height: 1px;
+        flex: 1;
+        max-width: 280px;
+        background: var(--border);
+      }
+
+      /* ---------- About ---------- */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 44px;
+        align-items: start;
+      }
+
+      .about-text p {
+        color: var(--text-muted);
+        margin-bottom: 18px;
+      }
+
+      .about-text strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .highlight-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 26px;
+      }
+
+      .highlight-card h4 {
+        font-family: var(--font-head);
+        font-size: 1rem;
+        margin-bottom: 16px;
+      }
+
+      .highlight-card ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .highlight-card li {
+        display: flex;
+        gap: 10px;
+        font-size: 0.92rem;
+        color: var(--text-muted);
+      }
+
+      .highlight-card li::before {
+        content: "▹";
+        color: var(--accent-2);
+        flex-shrink: 0;
+      }
+
+      /* ---------- Skills ---------- */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .skill-group {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 26px;
+        transition: transform 0.25s, border-color 0.25s;
+      }
+
+      .skill-group:hover {
+        transform: translateY(-4px);
+        border-color: rgba(129, 140, 248, 0.4);
+      }
+
+      .skill-group h4 {
+        font-family: var(--font-head);
+        font-size: 0.98rem;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .skill-group h4 .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--gradient);
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        background: rgba(148, 163, 184, 0.08);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 5px 13px;
+        transition: color 0.2s, border-color 0.2s;
+      }
+
+      .chip:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      /* ---------- Experience timeline ---------- */
+      .timeline {
+        position: relative;
+        padding-left: 32px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 6px;
+        bottom: 6px;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          var(--accent),
+          rgba(129, 140, 248, 0.1)
+        );
+      }
+
+      .timeline-item {
+        position: relative;
+        padding-bottom: 48px;
+      }
+
+      .timeline-item:last-child {
+        padding-bottom: 0;
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -32px;
+        top: 6px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--bg);
+        border: 3px solid var(--accent);
+        box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.15);
+      }
+
+      .timeline-item .role {
+        font-family: var(--font-head);
+        font-size: 1.15rem;
+        font-weight: 700;
+      }
+
+      .timeline-item .role span {
+        color: var(--accent);
+      }
+
+      .timeline-item .period {
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--text-faint);
+        margin: 6px 0 14px;
+        display: inline-block;
+      }
+
+      .timeline-item ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .timeline-item li {
+        display: flex;
+        gap: 12px;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      .timeline-item li::before {
+        content: "▹";
+        color: var(--accent-2);
+        flex-shrink: 0;
+      }
+
+      /* ---------- Projects ---------- */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+      }
+
+      .project-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.25s, border-color 0.25s, background 0.25s;
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+
+      .project-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(129, 140, 248, 0.4);
+        background: var(--card-hover);
+      }
+
+      .project-card:hover::before {
+        opacity: 1;
+      }
+
+      .project-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .project-top .folder {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(129, 140, 248, 0.12);
+        color: var(--accent);
+      }
+
+      .project-top .folder svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+      }
+
+      .project-link {
+        color: var(--text-muted);
+        transition: color 0.2s, transform 0.2s;
+        display: inline-flex;
+      }
+
+      .project-link:hover {
+        color: var(--accent);
+        transform: translate(2px, -2px);
+      }
+
+      .project-link svg {
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+      }
+
+      .project-card h4 {
+        font-family: var(--font-head);
+        font-size: 1.15rem;
+        font-weight: 700;
+      }
+
+      .project-card p {
+        color: var(--text-muted);
+        font-size: 0.93rem;
+        flex: 1;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tags span {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--accent-2);
+      }
+
+      /* ---------- Education ---------- */
+      .edu-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .edu-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 30px;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        flex-wrap: wrap;
+      }
+
+      .edu-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+        background: rgba(129, 140, 248, 0.12);
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .edu-icon svg {
+        width: 28px;
+        height: 28px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.6;
+      }
+
+      .edu-card h4 {
+        font-family: var(--font-head);
+        font-size: 1.1rem;
+      }
+
+      .edu-card .edu-sub {
+        color: var(--text-muted);
+        font-size: 0.92rem;
+      }
+
+      .edu-card .period {
+        margin-left: auto;
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--text-faint);
+      }
+
+      /* ---------- Contact ---------- */
+      .contact {
+        text-align: center;
+      }
+
+      .contact .section-title {
+        justify-content: center;
+      }
+
+      .contact p {
+        max-width: 520px;
+        margin: 0 auto 36px;
+        color: var(--text-muted);
+      }
+
+      .contact-actions {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+
+      /* ---------- Footer ---------- */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 28px 0;
+        text-align: center;
+      }
+
+      footer p {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-faint);
+      }
+
+      footer a {
+        color: var(--text-muted);
+        transition: color 0.2s;
+      }
+
+      footer a:hover {
+        color: var(--accent);
+      }
+
+      /* ---------- Reveal animation ---------- */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+
+        .hero h2 .typed {
+          border-right: none;
+        }
+      }
+
+      /* ---------- Responsive ---------- */
+      @media (max-width: 860px) {
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .hamburger {
+          display: flex;
+        }
+
+        .nav-links {
+          position: fixed;
+          top: 68px;
+          right: 0;
+          bottom: 0;
+          width: min(75vw, 320px);
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 40px 32px;
+          gap: 24px;
+          background: var(--bg-soft);
+          border-left: 1px solid var(--border);
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+        }
+
+        .nav-links.open {
+          transform: translateX(0);
+        }
+
+        section {
+          padding: 64px 0;
+        }
+
+        .edu-card .period {
+          margin-left: 0;
+          width: 100%;
+        }
       }
     </style>
   </head>
 
-  <body class="bg-white text-gray-800 font-sans leading-relaxed">
-    <!-- Header -->
-    <header
-      class="p-6 flex flex-col sm:flex-row justify-end items-center border-b space-y-4 sm:space-y-0"
-    >
-      <!-- <h1 class="text-2xl font-bold tracking-tight">Swapnil</h1> -->
-      <div
-        class="flex flex-col sm:flex-row items-center sm:space-x-6 space-y-3 sm:space-y-0 text-sm font-medium"
-      >
-        <nav
-          class="flex flex-wrap justify-center gap-4 sm:gap-6 text-sm font-medium"
-        >
-          <a href="#about" class="hover:text-blue-600">About</a>
-          <a href="#projects" class="hover:text-blue-600">Projects</a>
-          <a href="#experience" class="hover:text-blue-600">Experience</a>
-          <a href="#skills" class="hover:text-blue-600">Skills</a>
-          <a href="#contact" class="hover:text-blue-600">Contact</a>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <!-- ============ NAV ============ -->
+    <header class="nav">
+      <div class="container nav-inner">
+        <a href="#top" class="logo">&lt;<span>swapnil</span> /&gt;</a>
+        <nav>
+          <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li>
+              <a
+                class="btn btn-primary"
+                href="https://drive.google.com/file/d/1Rz_UInffpeSxFv8mqHI6wfyxXYV4q7_I/view?usp=sharing"
+                target="_blank"
+                rel="noopener"
+                >Resume</a
+              >
+            </li>
+          </ul>
         </nav>
-        <a
-          href="https://drive.google.com/file/d/1Rz_UInffpeSxFv8mqHI6wfyxXYV4q7_I/view?usp=sharing"
-          target="_blank"
-          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-        >
-          Download Resume
-        </a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </header>
 
-    <!-- Hero -->
-    <section class="text-center py-20 bg-gray-50">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4">Hi, I'm Swapnil</h2>
-      <p class="text-lg md:text-xl text-gray-600 mb-6">
-        Frontend Developer focused on speed, design, and reliability
-      </p>
-      <a
-        href="#contact"
-        class="bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition"
-        >Get in Touch</a
-      >
-    </section>
-
-    <section id="education" class="p-6 max-w-4xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6">Education</h3>
-      <div class="space-y-4">
-        <div>
-          <h4 class="font-semibold text-lg">
-            Indian Institute of Technology, Hyderabad
-          </h4>
-          <span class="text-sm text-gray-700 pr-5">Bachelor of Technology</span>
-          <span class="text-sm text-gray-500">July 2018 – May 2022</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills -->
-    <section id="skills" class="bg-gray-50 py-14">
-      <div class="max-w-4xl mx-auto px-6">
-        <h3 class="text-2xl font-bold mb-6">Skills</h3>
-        <div class="flex flex-wrap gap-4">
-          <span class="px-4 py-2 border rounded bg-white">ReactJs</span>
-          <span class="px-4 py-2 border rounded bg-white">NextJs</span>
-          <span class="px-4 py-2 border rounded bg-white">Javascript</span>
-          <span class="px-4 py-2 border rounded bg-white">Html</span>
-          <span class="px-4 py-2 border rounded bg-white">Css</span>
-          <span class="px-4 py-2 border rounded bg-white">GitHub</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="p-6 max-w-4xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6">About Me</h3>
-      <p class="text-gray-700 leading-relaxed text-lg">
-        I'm a frontend developer with nearly 3 years of experience, skilled in
-        building scalable, accessible web applications using technologies like
-        React, Next.js, TypeScript, and CSS. I’ve led key initiatives at
-        Cogoport, including the redesign and globalization of the public
-        website, implementation of a CMS from scratch, and creation of a
-        reusable UI component library with 50+ tested components. My work is
-        driven by a strong focus on performance, user experience, and developer
-        efficiency. I’m also experienced with tools like Node.js, Cypress, and
-        GitHub, and I enjoy mentoring teams and owning projects end-to-end.
-      </p>
-    </section>
-
-    <!-- Experience -->
-    <section id="experience" class="p-6 max-w-4xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6">Experience</h3>
-      <div class="space-y-10">
-        <div>
-          <h4 class="font-semibold text-lg">
-            Software Development Engineer 1 – Cogoport
-          </h4>
-          <span class="text-sm text-gray-500">Apr 2024 – Apr 2025</span>
-
-          <ul class="list-disc pl-5 text-gray-700 mt-2 space-y-2">
-            <li>
-              Developed a contract management system that enabled users to
-              adjust rates, set margins, and track approvals, contributing to
-              50% of company revenue via 300+ bookings.
-            </li>
-            <li>
-              Built a rate sheet parser and management system standardizing 100+
-              sheets, reducing booking time significantly.
-            </li>
-            <li>
-              Led the creation of a Supply Dashboard with smart task
-              prioritization, projected to improve agent task completion rates
-              by 20%.
-            </li>
-            <li>
-              Implemented a missing rate reporting system reducing reporting
-              time by 70% and saving 20+ hours weekly.
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="font-semibold text-lg">
-            Associate Software Developer – Cogoport
-          </h4>
-          <span class="text-sm text-gray-500">Jul 2022 – Mar 2024</span>
-          <ul class="list-disc pl-5 text-gray-700 mt-2 space-y-2">
-            <li>
-              Spearheaded the globalization of Cogoport’s public website,
-              enabling translation, currency conversion, and localization,
-              expanding reach by 50%.
-            </li>
-            <li>
-              Revamped the public website using Next.js and React, achieving
-              100% responsiveness and boosting UX.
-            </li>
-            <li>
-              Optimized SEO strategies using Lighthouse and GSC, leading to a
-              400% increase in organic traffic within two months.
-            </li>
-            <li>
-              Developed a CMS backend in NodeJS with role-based access, audit
-              logs, and secure content workflows across 5 projects.
-            </li>
-            <li>
-              Built a reusable UI component library (50+ components) and wrote
-              400+ unit tests using Cypress, ensuring consistency and
-              robustness.
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects" class="bg-white py-14 border-t border-b">
-      <div class="max-w-5xl mx-auto px-6">
-        <h3 class="text-2xl font-bold mb-10 text-center">Projects</h3>
-
-        <div class="grid md:grid-cols-2 gap-8">
-          <div
-            class="border rounded-lg p-6 shadow-sm hover:shadow-md transition"
-          >
-            <h4 class="text-xl font-semibold mb-2">Cogoport Public Website</h4>
-            <p class="text-gray-600">
-              Led the redesign of the public website using modern UI/UX,
-              improving responsiveness and performance.
-            </p>
-            <a
-              href="https://www.cogoport.com/"
-              target="_blank"
-              class="text-blue-600 underline mt-2 inline-block"
-              >Visit Website</a
-            >
-          </div>
-          <div
-            class="border rounded-lg p-6 shadow-sm hover:shadow-md transition"
-          >
-            <h4 class="text-xl font-semibold mb-2">
-              Accessible UI Component Library
-            </h4>
-            <p class="text-gray-600">
-              Built reusable components with keyboard support and semantic
-              structure.
-            </p>
-            <a
-              href="https://docs.cogoport.io/components"
-              target="_blank"
-              class="text-blue-600 underline mt-2 inline-block"
-              >View Components</a
-            >
-          </div>
-          <div
-            class="border rounded-lg p-6 shadow-sm hover:shadow-md transition"
-          >
-            <h4 class="text-xl font-semibold mb-2">Common Utility Functions</h4>
-            <p class="text-gray-600">
-              Developed shared utility functions to streamline frontend logic
-              across projects.
-            </p>
-            <a
-              href="https://docs.cogoport.io/utils"
-              target="_blank"
-              class="text-blue-600 underline mt-2 inline-block"
-              >View Utilities</a
-            >
-          </div>
-
-          <div
-            class="border rounded-lg p-6 shadow-sm hover:shadow-md transition"
-          >
-            <h4 class="text-xl font-semibold mb-2">Global CMS for Cogoport</h4>
-            <p class="text-gray-600">
-              React, Redux, Developed modular UI blocks and integrated CMS for
-              multilingual support.
-            </p>
-            <a
-              href="https://cms.cogoport.com/"
-              target="_blank"
-              class="text-blue-600 underline mt-2 inline-block"
-              >Visit CMS</a
-            >
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="p-10 max-w-xl mx-auto">
-      <h3 class="text-2xl font-bold mb-6 text-center">Contact</h3>
-      <div class="space-y-6 text-center">
-        <p class="text-lg text-gray-700">
-          I'd love to connect — feel free to reach out!
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+      <div class="container">
+        <p class="hero-eyebrow reveal">Hi, my name is</p>
+        <h1 class="reveal">
+          Swapnil <span class="gradient-text">Vaidya.</span>
+        </h1>
+        <h2 class="reveal">I build <span class="typed" id="typed"></span></h2>
+        <p class="reveal">
+          Frontend developer with 3+ years of experience crafting fast,
+          accessible and scalable web applications with React, Next.js and
+          TypeScript. IIT Hyderabad graduate, currently building at
+          <strong style="color: var(--text)">OverseeAI</strong>, Mumbai.
         </p>
-        <div class="space-y-4">
-          <a
-            href="mailto:swapnilvaidya939@gmail.com"
-            class="block text-blue-600 text-lg hover:underline"
+        <div class="hero-actions reveal">
+          <a href="#projects" class="btn btn-primary">View my work</a>
+          <a href="#contact" class="btn btn-outline">Get in touch</a>
+          <div class="socials">
+            <a
+              href="https://github.com/swapnil-m-vaidya"
+              target="_blank"
+              rel="noopener"
+              aria-label="GitHub"
+            >
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.11-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.66.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"
+                />
+              </svg>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/vaidya-swapnil/"
+              target="_blank"
+              rel="noopener"
+              aria-label="LinkedIn"
+            >
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45z"
+                />
+              </svg>
+            </a>
+            <a
+              href="mailto:swapnilvaidya939@gmail.com"
+              aria-label="Email"
+            >
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M2 4h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm1.5 2.7v11.8h17V6.7L12 13.25 3.5 6.7zM4.64 6l7.36 5.67L19.36 6H4.64z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="stats reveal">
+          <div class="stat"><b>3+ yrs</b><span>Experience</span></div>
+          <div class="stat"><b>50+</b><span>UI components built</span></div>
+          <div class="stat"><b>400+</b><span>Unit tests written</span></div>
+          <div class="stat"><b>400%</b><span>Organic traffic growth</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section id="about">
+      <div class="container">
+        <div class="section-title reveal">
+          <span class="index">01.</span>
+          <h3>About Me</h3>
+          <span class="line"></span>
+        </div>
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <p>
+              I'm a frontend developer based in <strong>Mumbai</strong> with
+              <strong>3+ years of experience</strong> building scalable,
+              accessible web applications using
+              <strong>React, Next.js, TypeScript and CSS</strong>. I'm
+              currently a Software Engineer at <strong>OverseeAI</strong>.
+            </p>
+            <p>
+              Previously at <strong>Cogoport</strong>, I led key initiatives including the
+              redesign and globalization of the public website, implementation
+              of a CMS from scratch, and creation of a reusable UI component
+              library with 50+ tested components.
+            </p>
+            <p>
+              My work is driven by a strong focus on
+              <strong>performance, user experience and developer
+              efficiency</strong>. I'm also experienced with Node.js, Cypress
+              and GitHub, and I enjoy mentoring teams and owning projects
+              end-to-end.
+            </p>
+          </div>
+          <div class="highlight-card reveal">
+            <h4>Highlights</h4>
+            <ul>
+              <li>B.Tech from IIT Hyderabad (2018–2022)</li>
+              <li>Led website globalization — reach up by 50%</li>
+              <li>Built a 50+ component UI library</li>
+              <li>SEO work drove 400% organic traffic growth</li>
+              <li>Systems contributing to 50% of company revenue</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section id="skills">
+      <div class="container">
+        <div class="section-title reveal">
+          <span class="index">02.</span>
+          <h3>Skills</h3>
+          <span class="line"></span>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-group reveal">
+            <h4><span class="dot"></span>Languages & Core</h4>
+            <div class="chips">
+              <span class="chip">JavaScript</span>
+              <span class="chip">TypeScript</span>
+              <span class="chip">HTML5</span>
+              <span class="chip">CSS3</span>
+            </div>
+          </div>
+          <div class="skill-group reveal">
+            <h4><span class="dot"></span>Frameworks & Libraries</h4>
+            <div class="chips">
+              <span class="chip">React</span>
+              <span class="chip">Next.js</span>
+              <span class="chip">Redux</span>
+              <span class="chip">Tailwind CSS</span>
+              <span class="chip">Node.js</span>
+              <span class="chip">PostgreSQL</span>
+            </div>
+          </div>
+          <div class="skill-group reveal">
+            <h4><span class="dot"></span>Testing & Tooling</h4>
+            <div class="chips">
+              <span class="chip">Cypress</span>
+              <span class="chip">Git / GitHub</span>
+              <span class="chip">Vercel</span>
+              <span class="chip">Lighthouse</span>
+              <span class="chip">Search Console</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section id="experience">
+      <div class="container">
+        <div class="section-title reveal">
+          <span class="index">03.</span>
+          <h3>Experience</h3>
+          <span class="line"></span>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item reveal">
+            <div class="role">Software Engineer <span>@ OverseeAI</span></div>
+            <span class="period">Jun 2025 — Present · Mumbai (Hybrid)</span>
+            <ul>
+              <li>
+                Building modern, performant frontend experiences for AI-driven
+                products with React.js and Tailwind CSS.
+              </li>
+            </ul>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="role">
+              Senior Software Engineer <span>@ Recro</span>
+            </div>
+            <span class="period">May 2025 — Jun 2025 · Bengaluru (Hybrid)</span>
+            <ul>
+              <li>
+                Deployed as an SDE at Retire100, Mumbai — building frontend
+                features with Next.js and React.js.
+              </li>
+            </ul>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="role">
+              Software Development Engineer 1 <span>@ Cogoport</span>
+            </div>
+            <span class="period">Apr 2024 — Apr 2025</span>
+            <ul>
+              <li>
+                Developed a contract management system enabling users to adjust
+                rates, set margins and track approvals — contributing to 50% of
+                company revenue via 300+ bookings.
+              </li>
+              <li>
+                Built a rate sheet parser and management system standardizing
+                100+ sheets, significantly reducing booking time.
+              </li>
+              <li>
+                Led the creation of a Supply Dashboard with smart task
+                prioritization, projected to improve agent task completion
+                rates by 20%.
+              </li>
+              <li>
+                Implemented a missing-rate reporting system, reducing reporting
+                time by 70% and saving 20+ hours weekly.
+              </li>
+            </ul>
+          </div>
+
+          <div class="timeline-item reveal">
+            <div class="role">
+              Associate Software Developer <span>@ Cogoport</span>
+            </div>
+            <span class="period">Jul 2022 — Mar 2024</span>
+            <ul>
+              <li>
+                Spearheaded the globalization of Cogoport's public website —
+                translation, currency conversion and localization — expanding
+                reach by 50%.
+              </li>
+              <li>
+                Revamped the public website using Next.js and React, achieving
+                100% responsiveness and boosting UX.
+              </li>
+              <li>
+                Optimized SEO using Lighthouse and Google Search Console,
+                driving a 400% increase in organic traffic within two months.
+              </li>
+              <li>
+                Developed a CMS backend in Node.js with role-based access,
+                audit logs and secure content workflows across 5 projects.
+              </li>
+              <li>
+                Built a reusable UI component library (50+ components) with
+                400+ Cypress unit tests, ensuring consistency and robustness.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-title reveal">
+          <span class="index">04.</span>
+          <h3>Projects</h3>
+          <span class="line"></span>
+        </div>
+        <div class="projects-grid">
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div class="folder">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"
+                  />
+                </svg>
+              </div>
+              <a
+                class="project-link"
+                href="https://www.cogoport.com/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Visit Cogoport website"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 17L17 7M9 7h8v8" />
+                </svg>
+              </a>
+            </div>
+            <h4>Cogoport Public Website</h4>
+            <p>
+              Led the redesign of the public website with modern UI/UX —
+              fully responsive, globalized and heavily optimized for
+              performance and SEO.
+            </p>
+            <div class="tags">
+              <span>Next.js</span><span>React</span><span>i18n</span
+              ><span>SEO</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div class="folder">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"
+                  />
+                </svg>
+              </div>
+              <a
+                class="project-link"
+                href="https://docs.cogoport.io/components"
+                target="_blank"
+                rel="noopener"
+                aria-label="View component library"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 17L17 7M9 7h8v8" />
+                </svg>
+              </a>
+            </div>
+            <h4>Accessible UI Component Library</h4>
+            <p>
+              50+ reusable components with keyboard support and semantic
+              structure, backed by 400+ Cypress tests for consistency across
+              products.
+            </p>
+            <div class="tags">
+              <span>React</span><span>a11y</span><span>Cypress</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div class="folder">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"
+                  />
+                </svg>
+              </div>
+              <a
+                class="project-link"
+                href="https://cms.cogoport.com/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Visit CMS"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 17L17 7M9 7h8v8" />
+                </svg>
+              </a>
+            </div>
+            <h4>Global CMS for Cogoport</h4>
+            <p>
+              Modular UI blocks with an integrated CMS for multilingual
+              content, role-based access, audit logs and secure content
+              workflows.
+            </p>
+            <div class="tags">
+              <span>React</span><span>Redux</span><span>Node.js</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div class="folder">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"
+                  />
+                </svg>
+              </div>
+              <a
+                class="project-link"
+                href="https://docs.cogoport.io/utils"
+                target="_blank"
+                rel="noopener"
+                aria-label="View utilities"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 17L17 7M9 7h8v8" />
+                </svg>
+              </a>
+            </div>
+            <h4>Common Utility Functions</h4>
+            <p>
+              Shared, well-documented utility functions that streamline
+              frontend logic and reduce duplication across multiple projects.
+            </p>
+            <div class="tags">
+              <span>JavaScript</span><span>DX</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div class="folder">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"
+                  />
+                </svg>
+              </div>
+              <div style="display: flex; gap: 14px">
+                <a
+                  class="project-link"
+                  href="https://github.com/swapnil-m-vaidya/Chat"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="AI Chat source code on GitHub"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
+                  </svg>
+                </a>
+                <a
+                  class="project-link"
+                  href="https://chat-sage-nine.vercel.app"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Open AI Chat live demo"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h4>AI Chat Application</h4>
+            <p>
+              A ChatGPT-style chat interface with multiple chat sessions and
+              per-response feedback, built with React and hand-rolled modular
+              CSS. Deployed on Vercel.
+            </p>
+            <div class="tags">
+              <span>React</span><span>CSS Modules</span><span>Vercel</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <div class="folder">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"
+                  />
+                </svg>
+              </div>
+              <div style="display: flex; gap: 14px">
+                <a
+                  class="project-link"
+                  href="https://github.com/swapnil-m-vaidya/nextjs-dashboard"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Next.js dashboard source code on GitHub"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
+                  </svg>
+                </a>
+                <a
+                  class="project-link"
+                  href="https://nextjs-dashboard-seven-sigma-66.vercel.app"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Open Next.js dashboard live demo"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h4>Next.js Dashboard</h4>
+            <p>
+              A full-stack dashboard with authentication, PostgreSQL data
+              layer, search and pagination — built with the Next.js App Router
+              and TypeScript.
+            </p>
+            <div class="tags">
+              <span>Next.js</span><span>TypeScript</span
+              ><span>PostgreSQL</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EDUCATION ============ -->
+    <section id="education">
+      <div class="container">
+        <div class="section-title reveal">
+          <span class="index">05.</span>
+          <h3>Education</h3>
+          <span class="line"></span>
+        </div>
+        <div class="edu-list">
+          <div class="edu-card reveal">
+            <div class="edu-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3L2 8l10 5 10-5-10-5z" />
+                <path d="M6 10.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-5.5" />
+              </svg>
+            </div>
+            <div>
+              <h4>Indian Institute of Technology, Hyderabad</h4>
+              <div class="edu-sub">Bachelor of Technology</div>
+            </div>
+            <span class="period">Jul 2018 — May 2022</span>
+          </div>
+
+          <div class="edu-card reveal">
+            <div class="edu-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2V4z" />
+                <path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7V4z" />
+              </svg>
+            </div>
+            <div>
+              <h4>Jawahar Navodaya Vidyalaya, Rangareddy</h4>
+              <div class="edu-sub">Class XII, Science</div>
+            </div>
+            <span class="period">Jul 2016 — May 2018</span>
+          </div>
+
+          <div class="edu-card reveal">
+            <div class="edu-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2V4z" />
+                <path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7V4z" />
+              </svg>
+            </div>
+            <div>
+              <h4>Jawahar Navodaya Vidyalaya, Gondia</h4>
+              <div class="edu-sub">Class X</div>
+            </div>
+            <span class="period">Nov 2011 — May 2016</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="section-title reveal">
+          <span class="index">06.</span>
+          <h3>Get In Touch</h3>
+          <span class="line"></span>
+        </div>
+        <p class="reveal">
+          I'm currently open to new opportunities and collaborations. Whether
+          you have a question or just want to say hi — my inbox is always open!
+        </p>
+        <div class="contact-actions reveal">
+          <a href="mailto:swapnilvaidya939@gmail.com" class="btn btn-primary"
+            >Say Hello 👋</a
           >
-            📧 swapnilvaidya939@gmail.com
-          </a>
-          <a
-            href="tel:+917972175185"
-            class="block text-blue-600 text-lg hover:underline"
-          >
-            📞 Call: +91 7972175185
-          </a>
           <a
             href="https://wa.me/917972175185"
             target="_blank"
-            class="block text-blue-600 text-lg hover:underline"
+            rel="noopener"
+            class="btn btn-outline"
+            >WhatsApp</a
           >
-            💬 WhatsApp: +91 7972175185
+          <a href="tel:+917972175185" class="btn btn-outline">Call Me</a>
+        </div>
+        <div class="socials reveal" style="justify-content: center">
+          <a
+            href="https://github.com/swapnil-m-vaidya"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+          >
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.11-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.66.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/vaidya-swapnil/"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+          >
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45z"
+              />
+            </svg>
           </a>
         </div>
       </div>
     </section>
-    <!-- Footer -->
-    <footer class="text-center p-6 text-sm bg-white border-t">
-      <!-- <p>&copy; 2025 Swapnil Mangal Vaidya. All rights reserved.</p> -->
-      <div class="mt-2 space-x-4">
-        <a
-          href="https://github.com/swapnil-m-vaidya"
-          target="_blank"
-          class="text-blue-600 hover:underline"
-          >GitHub</a
-        >
-        <a
-          href="https://www.linkedin.com/in/vaidya-swapnil/"
-          target="_blank"
-          class="text-blue-600 hover:underline"
-          >LinkedIn</a
-        >
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+      <div class="container">
+        <p>
+          Designed & built by
+          <a
+            href="https://github.com/swapnil-m-vaidya"
+            target="_blank"
+            rel="noopener"
+            >Swapnil Vaidya</a
+          >
+          · © <span id="year"></span>
+        </p>
       </div>
     </footer>
+
+    <script>
+      // Typing effect in hero
+      (function () {
+        var el = document.getElementById("typed");
+        var reduced = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+        var phrases = [
+          "fast web experiences.",
+          "accessible interfaces.",
+          "scalable React apps.",
+          "pixel-perfect UIs.",
+        ];
+        if (reduced) {
+          el.textContent = phrases[0];
+          return;
+        }
+        var pi = 0,
+          ci = 0,
+          deleting = false;
+        function tick() {
+          var phrase = phrases[pi];
+          ci = deleting ? ci - 1 : ci + 1;
+          el.textContent = phrase.slice(0, ci);
+          var delay = deleting ? 40 : 80;
+          if (!deleting && ci === phrase.length) {
+            delay = 2200;
+            deleting = true;
+          } else if (deleting && ci === 0) {
+            deleting = false;
+            pi = (pi + 1) % phrases.length;
+            delay = 400;
+          }
+          setTimeout(tick, delay);
+        }
+        tick();
+      })();
+
+      // Scroll-reveal
+      (function () {
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
+        document.querySelectorAll(".reveal").forEach(function (el) {
+          observer.observe(el);
+        });
+      })();
+
+      // Active nav link on scroll
+      (function () {
+        var sections = document.querySelectorAll("section[id]");
+        var links = document.querySelectorAll(".nav-links a[href^='#']");
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                links.forEach(function (link) {
+                  link.classList.toggle(
+                    "active",
+                    link.getAttribute("href") === "#" + entry.target.id
+                  );
+                });
+              }
+            });
+          },
+          { rootMargin: "-40% 0px -55% 0px" }
+        );
+        sections.forEach(function (s) {
+          observer.observe(s);
+        });
+      })();
+
+      // Mobile menu
+      (function () {
+        var burger = document.getElementById("hamburger");
+        var menu = document.getElementById("navLinks");
+        burger.addEventListener("click", function () {
+          var open = menu.classList.toggle("open");
+          burger.classList.toggle("open", open);
+          burger.setAttribute("aria-expanded", open);
+        });
+        menu.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            menu.classList.remove("open");
+            burger.classList.remove("open");
+            burger.setAttribute("aria-expanded", "false");
+          });
+        });
+      })();
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>
